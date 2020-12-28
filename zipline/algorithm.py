@@ -486,7 +486,7 @@ class TradingAlgorithm(object):
                    blotter=repr(self.blotter),
                    recorded_vars=repr(self.recorded_vars))
 
-    def _create_clock(self):
+    def _create_clock(self, tz="US/Eastern"):
         """
         If the clock property is not set, then create one based on frequency.
         """
@@ -521,7 +521,7 @@ class TradingAlgorithm(object):
         before_trading_start_minutes = days_at_time(
             self.sim_params.sessions,
             time(8, 45),
-            "US/Eastern"
+            tz
         )
 
         return MinuteSimulationClock(
@@ -583,7 +583,7 @@ class TradingAlgorithm(object):
             self,
             sim_params,
             self.data_portal,
-            self._create_clock(),
+            self._create_clock(self.trading_calendar.tz.__str__()),
             benchmark_source,
             self.restrictions,
             universe_func=self._calculate_universe

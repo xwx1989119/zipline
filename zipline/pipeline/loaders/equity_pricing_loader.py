@@ -214,3 +214,4 @@ class EquityPricingLoader(implements(PipelineLoader)):
 
 # Backwards compat alias.
 USEquityPricingLoader = EquityPricingLoader
+CNEquityPricingLoader = EquityPricingLoader

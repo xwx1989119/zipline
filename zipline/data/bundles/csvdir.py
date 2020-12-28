@@ -177,7 +177,8 @@ def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
 
             try:
                 fname = [fname for fname in files
-                         if '%s.csv' % symbol in fname][0]
+                         if '%s.csv' % symbol == fname][0]
+                # change in to equals
             except IndexError:
                 raise ValueError("%s.csv file is not in %s" % (symbol, csvdir))
 
@@ -212,7 +213,8 @@ def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
                 div = DataFrame(data=tmp.index.tolist(), columns=['ex_date'])
                 div['record_date'] = NaT
                 div['declared_date'] = NaT
-                div['pay_date'] = NaT
+                # div['pay_date'] = NaT
+                div['pay_date'] = div['ex_date']
                 div['amount'] = tmp.tolist()
                 div['sid'] = sid
 

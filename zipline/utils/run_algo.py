@@ -22,8 +22,8 @@ from zipline.data.benchmarks import get_benchmark_returns_from_file
 from zipline.data.data_portal import DataPortal
 from zipline.finance import metrics
 from zipline.finance.trading import SimulationParameters
-from zipline.pipeline.data import USEquityPricing
-from zipline.pipeline.loaders import USEquityPricingLoader
+from zipline.pipeline.data import USEquityPricing, CNEquityPricing
+from zipline.pipeline.loaders import USEquityPricingLoader, CNEquityPricingLoader
 
 import zipline.utils.paths as pth
 from zipline.extensions import load
@@ -170,9 +170,16 @@ def _run(handle_data,
         bundle_data.adjustment_reader,
     )
 
+    CN_pipeline_loader = CNEquityPricingLoader.without_fx(
+        bundle_data.equity_daily_bar_reader,
+        bundle_data.adjustment_reader,
+    )
+
     def choose_loader(column):
         if column in USEquityPricing.columns:
             return pipeline_loader
+        elif column in CNEquityPricing.columns:
+            return CN_pipeline_loader
         raise ValueError(
             "No PipelineLoader registered for column %s." % column
         )
